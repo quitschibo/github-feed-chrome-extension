@@ -53,7 +53,7 @@ if (localStorage["lastEntry"] == null) {
 function run() {
     getFeedUrl();
     getFeed();
-    window.setTimeout(run, 5000);
+    window.setTimeout(run, 60000);
 }
 run();
 
