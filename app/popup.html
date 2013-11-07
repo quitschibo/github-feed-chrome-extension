@@ -8,17 +8,20 @@
         <!-- endbuild -->
     </head>
     <body>
-        <!-- CHROME EXTENSION POPUP -->
-        <form>
-            Github username: <input id="username" value="" />
-            Github token: <input id="password" type="password" value="">
-        </form>
-        <button>Save</button>
-        <br>
-        <br>
-        <input class="checkbox" type="checkbox" id="create" value="create">Create events<br>
-        <input class="checkbox" type="checkbox" id="star" value="star">Star events<br>
-        <input class="checkbox" type="checkbox" id="opensource" value="opensource">Open-source events<br>
-
+        <div id="main">
+            <!-- CHROME EXTENSION POPUP -->
+            <form>
+                Github username:<br />
+                <input id="username" value="" /><br />
+                Github token:<br />
+                <input id="password" type="password" value=""><br />
+            </form>
+            <button>Save</button>
+            <br>
+            <br>
+            <input class="checkbox" type="checkbox" id="create" value="create">Create events<br>
+            <input class="checkbox" type="checkbox" id="star" value="star">Star events<br>
+            <input class="checkbox" type="checkbox" id="opensource" value="opensource">Open-source events<br>
+        </div>
     </body>
 </html>
