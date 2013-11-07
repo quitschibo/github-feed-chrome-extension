@@ -47,25 +47,33 @@ function parsePrivateFeed(result) {
         console.log(entry);
 
         // create event workflow
-        if (entry.type == "CreateEvent") {
+        if (entry.type == "CreateEvent" && isEventActive("CreateEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
                 notify("New repository", entry.actor + " has created a new repository! Click to get there!", entry.url, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // star event workflow
-        } else if (entry.type == "WatchEvent") {
+        } else if (entry.type == "WatchEvent" && isEventActive("WatchEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
                 notify("Repository starred", entry.actor + " has starred a repository! Click to get there!", entry.url, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // open source event workflow
-        } else  if (entry.type == "PublicEvent") {
+        } else  if (entry.type == "PublicEvent" && isEventActive("PublicEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
                 notify("Repository open sourced", entry.actor + " has open sourced a repository! Click to get there!", entry.url, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         }
     }
+}
+
+function isEventActive(eventName) {
+    if (localStorage[eventName] == null) {
+        return false;
+    }
+
+    return localStorage[eventName];
 }
 
 /**
