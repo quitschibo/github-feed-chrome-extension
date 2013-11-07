@@ -40,10 +40,26 @@ function getFeed() {
 function parsePrivateFeed(result) {
     console.log(result);
     for (var i = result.length - 1; i >= 0; i--) {
-        if (result[i].type == "CreateEvent") {
-            if (localStorage["lastEntry"] < result[i].created_at) {
-                notify("New repository", result[i].actor + " has created a new repository! Click to get there!", result[i].url);
-                localStorage["lastEntry"] = result[i].created_at;
+        var entry = result[i];
+        var createdAt = entry.created_at;
+
+        // create event workflow
+        if (entry.type == "CreateEvent") {
+            if (localStorage["lastEntry"] < createdAt) {
+                notify("New repository", entry.actor + " has created a new repository! Click to get there!", entry.url);
+                localStorage["lastEntry"] = createdAt;
+            }
+        // star event workflow
+        } else if (entry.type == "WatchEvent") {
+            if (localStorage["lastEntry"] < createdAt) {
+                notify("Repository starred", entry.actor + " has starred a repository! Click to get there!", entry.url);
+                localStorage["lastEntry"] = createdAt;
+            }
+        // open source event workflow
+        } else  if (entry.type == "PublicEvent") {
+            if (localStorage["lastEntry"] < createdAt) {
+                notify("Repository open sourced", entry.actor + " has open sourced a repository! Click to get there!", entry.url);
+                localStorage["lastEntry"] = createdAt;
             }
         }
     }
