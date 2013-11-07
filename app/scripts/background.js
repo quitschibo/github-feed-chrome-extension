@@ -42,23 +42,26 @@ function parsePrivateFeed(result) {
     for (var i = result.length - 1; i >= 0; i--) {
         var entry = result[i];
         var createdAt = entry.created_at;
+        var gravatarId = entry.actor_attributes.gravatar_id;
+
+        console.log(entry);
 
         // create event workflow
         if (entry.type == "CreateEvent") {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("New repository", entry.actor + " has created a new repository! Click to get there!", entry.url);
+                notify("New repository", entry.actor + " has created a new repository! Click to get there!", entry.url, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // star event workflow
         } else if (entry.type == "WatchEvent") {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("Repository starred", entry.actor + " has starred a repository! Click to get there!", entry.url);
+                notify("Repository starred", entry.actor + " has starred a repository! Click to get there!", entry.url, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // open source event workflow
         } else  if (entry.type == "PublicEvent") {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("Repository open sourced", entry.actor + " has open sourced a repository! Click to get there!", entry.url);
+                notify("Repository open sourced", entry.actor + " has open sourced a repository! Click to get there!", entry.url, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         }
@@ -72,8 +75,8 @@ function parsePrivateFeed(result) {
  * @param text The text of the notification
  * @param link The link we want to send the user when he clicks the notification
  */
-function notify(title, text, link) {
-    var not = webkitNotifications.createNotification("images/icon-16.png", title, text);
+function notify(title, text, link, gravatarId) {
+    var not = webkitNotifications.createNotification("http://www.gravatar.com/avatar/" + gravatarId, title, text);
     not.addEventListener("click", function () {
         window.open(link);
         not.close();
