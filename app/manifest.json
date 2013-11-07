@@ -21,21 +21,5 @@
         "default_popup": "popup.html"
     },
     "options_page": "options.html",
-    "content_scripts": [
-        {
-            "matches": [
-                "http://*/*",
-                "https://*/*"
-            ],
-            "css": [
-                "styles/main.css"
-            ],
-            "js": [
-                "scripts/contentscript.js"
-            ],
-            "run_at": "document_end",
-            "all_frames": false
-        }
-    ],
     "permissions": ["https://api.github.com/", "http://www.gravatar.com/", "https://github.com/", "storage", "notifications", "background"]
 }
