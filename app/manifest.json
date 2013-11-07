@@ -39,5 +39,5 @@
             "all_frames": false
         }
     ],
-    "permissions": ["http://*/", "https://*/", "storage", "notifications", "background"]
+    "permissions": ["https://api.github.com/", "http://www.gravatar.com/", "https://github.com/", "storage", "notifications", "background"]
 }
