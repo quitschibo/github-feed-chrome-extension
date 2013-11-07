@@ -34,7 +34,7 @@ function parseFeed(result) {
  * Get the public feed from Github and parse events
  */
 function getFeed() {
-    $.ajax({type:'GET', dataType:'json', url: localStorage["feedUrl"], timeout:5000, success:parsePrivateFeed, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', make_base_auth(localStorage["username"], localStorage["password"]));}});
+    $.ajax({type:'GET', dataType:'json', url: localStorage["feedUrl"], timeout:5000, success:parsePrivateFeed, async: false});
 }
 
 function parsePrivateFeed(result) {
