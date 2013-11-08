@@ -59,19 +59,19 @@ function parsePrivateFeed(result) {
         // create event workflow
         if (entry.type == "CreateEvent" && isEventActive("CreateEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("New repository", entry.actor + " has created a new repository! Click to get there!", entry.url, gravatarId);
+                notify("New repository " + entry.repository.name + " created", entry.actor + " has created " + entry.repository.name + "! Click to get there!", entry.url, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // star event workflow
         } else if (entry.type == "WatchEvent" && isEventActive("WatchEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("Repository starred", entry.actor + " has starred a repository! Click to get there!", entry.url, gravatarId);
+                notify("Repository " + entry.repository.name + " starred", entry.actor + " has starred " + entry.repository.name + " in language " + entry.repository.language + "! Click to get there!", entry.url, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // open source event workflow
         } else  if (entry.type == "PublicEvent" && isEventActive("PublicEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("Repository open sourced", entry.actor + " has open sourced a repository! Click to get there!", entry.url, gravatarId);
+                notify("Repository " + entry.repository.name + " open sourced", entry.actor + " has open sourced " + entry.repository.name + "! Click to get there!", entry.url, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         }
