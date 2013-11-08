@@ -135,6 +135,8 @@ function run() {
     if (localStorage["feedUrl"] == null) {
         getFeedUrl();
     }
+
+    // get feed events
     getFeed();
     window.setTimeout(run, 60000);
 }
