@@ -7,11 +7,13 @@ chrome.runtime.onInstalled.addListener(function (details) {
 /**
  * Method for creating basic auth header.
  *
+ * Got function from here: http://stackoverflow.com/questions/5507234/how-to-use-basic-auth-and-jquery-and-ajax
+ *
  * @param user The user who wants to authenticate
  * @param password The password of the user who wants to authenticate
  * @returns {string} The resulting header for basic auth to get the given user authenticated
  */
-function make_base_auth(user, password) {
+function makeBaseAuth(user, password) {
     var tok = user + ':' + password;
     var hash = btoa(tok);
     return "Basic " + hash;
@@ -24,7 +26,7 @@ function getFeedUrl() {
     console.log("get new feed url");
     try {
         // call github api
-        $.ajax({type:'GET', dataType:'json', url: 'https://api.github.com/feeds', timeout:5000, success:parseFeed, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', make_base_auth(localStorage["username"], localStorage["password"]));}});
+        $.ajax({type:'GET', dataType:'json', url: 'https://api.github.com/feeds', timeout:5000, success:parseFeed, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', makeBaseAuth(localStorage["username"], localStorage["password"]));}});
     } catch (e) {
         console.log("Error fetching feed list from Github. The server might be down or the api has changed. Will try it again the next time.");
     }
