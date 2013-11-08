@@ -21,8 +21,13 @@ function make_base_auth(user, password) {
  * Get all feeds from Github for the user and select the public feed.
  */
 function getFeedUrl() {
-    // call github api
-    $.ajax({type:'GET', dataType:'json', url: 'https://api.github.com/feeds', timeout:5000, success:parseFeed, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', make_base_auth(localStorage["username"], localStorage["password"]));}});
+    console.log("get new feed url");
+    try {
+        // call github api
+        $.ajax({type:'GET', dataType:'json', url: 'https://api.github.com/feeds', timeout:5000, success:parseFeed, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', make_base_auth(localStorage["username"], localStorage["password"]));}});
+    } catch (e) {
+        console.log("Error fetching feed list from Github. The server might be down or the api has changed. Will try it again the next time.");
+    }
 }
 
 function parseFeed(result) {
@@ -34,7 +39,12 @@ function parseFeed(result) {
  * Get the public feed from Github and parse events
  */
 function getFeed() {
-    $.ajax({type:'GET', dataType:'json', url: localStorage["feedUrl"], timeout:5000, success:parsePrivateFeed, async: false});
+    try {
+        $.ajax({type:'GET', dataType:'json', url: localStorage["feedUrl"], timeout:5000, success:parsePrivateFeed, error:recoverFromWrongPrivateFeed, async: false});
+    } catch (e) {
+        console.log("Calling the feed resulted in error. Recovering in progress.");
+    }
+
 }
 
 function parsePrivateFeed(result) {
@@ -66,6 +76,15 @@ function parsePrivateFeed(result) {
             }
         }
     }
+}
+
+/**
+ * We want to cache the private url for the user, so we do not have to make two call every minute. When something went
+ * wrong (maybe the url changes), we want to retrieve the new one.
+ */
+function recoverFromWrongPrivateFeed() {
+    console.log("get feed failed!");
+    getFeedUrl();
 }
 
 function isEventActive(eventName) {
@@ -101,7 +120,10 @@ if (localStorage["lastEntry"] == null) {
  * Method for polling. Gets the public feed and parses events.
  */
 function run() {
-    getFeedUrl();
+    // just call the feedUrl, when nothing is set. If it expires, the next call will it recover -> cache pattern
+    if (localStorage["feedUrl"] == null) {
+        getFeedUrl();
+    }
     getFeed();
     window.setTimeout(run, 60000);
 }
