@@ -47,6 +47,12 @@ function getFeed() {
 
 }
 
+/**
+ * Method checks all returned results from end to beginning (reverse), if more than one new event shows up we can show it
+ * the user chronically correct.
+ *
+ * @param result The events in user feed provided by the Github API.
+ */
 function parsePrivateFeed(result) {
     console.log(result);
     for (var i = result.length - 1; i >= 0; i--) {
@@ -87,6 +93,11 @@ function recoverFromWrongPrivateFeed() {
     getFeedUrl();
 }
 
+/**
+ * Function for checking, if a event is active
+ * @param eventName The name of the event we want to check.
+ * @returns {*}
+ */
 function isEventActive(eventName) {
     if (localStorage[eventName] == null) {
         return false;
@@ -111,15 +122,15 @@ function notify(title, text, link, gravatarId) {
     not.show();
 }
 
-// initialize the localStorage for lastEntry
-if (localStorage["lastEntry"] == null) {
-    localStorage["lastEntry"] = 0;
-}
-
 /**
  * Method for polling. Gets the public feed and parses events.
  */
 function run() {
+    // initialize the localStorage for lastEntry
+    if (localStorage["lastEntry"] == null) {
+        localStorage["lastEntry"] = 0;
+    }
+
     // just call the feedUrl, when nothing is set. If it expires, the next call will it recover -> cache pattern
     if (localStorage["feedUrl"] == null) {
         getFeedUrl();
