@@ -13,3 +13,6 @@ Please DO NOT provide your password (even if it would work)! Please treat your t
 ### Security considerations:
 This extension is just for testing. The place for storing your token is NOT SAFE (localStorage)!
 If you remove this extension from your browser, please DELETE YOUR TOKEN! Thanks.
+
+## Tips for setting up the dev environment
+* There is a .editorconfig for configuring the IDE of your choice. [Have a look here](http://editorconfig.org/)
