@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $('#create').attr('checked', localStorage["CreateEvent"] == "true");
     $('#star').attr('checked', localStorage["WatchEvent"] == "true");
     $('#opensource').attr('checked', localStorage["PublicEvent"] == "true");
+    $('#follow').attr('checked', localStorage["FollowEvent"] == "true");
 
     document.querySelector('button').addEventListener('click', save);
 
@@ -25,6 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage["WatchEvent"] = this.checked;
         } else if (this.id == "opensource") {
             localStorage["PublicEvent"] = this.checked;
+        } else if (this.id == "follow") {
+            localStorage["FollowEvent"] = this.checked;
         }
     });
 });
