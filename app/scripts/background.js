@@ -22,13 +22,13 @@ function getFeedUrl() {
     console.log("get new feed url");
     try {
         // get all feeds for this user
-        $.ajax({type:'GET', dataType:'json', url: 'https://api.github.com/feeds', timeout:5000, success:parseFeed, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', makeBaseAuth(localStorage["username"], localStorage["password"]));}});
+        $.ajax({type:'GET', dataType:'json', url: 'https://api.github.com/feeds', timeout:5000, success:saveFeedUrl, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', makeBaseAuth(localStorage["username"], localStorage["password"]));}});
     } catch (e) {
         console.log("Error fetching feed list from Github. The server might be down or the api has changed. Will try it again the next time.");
     }
 }
 
-function parseFeed(result) {
+function saveFeedUrl(result) {
     console.log(result.current_user_url);
     localStorage["feedUrl"] = result.current_user_url;
 }
