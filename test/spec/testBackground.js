@@ -15,5 +15,29 @@
 
             expect(localStorage['feedUrl']).toBe("http://example.com");
         });
+        it('check if parsePublicFeed works', function () {
+            var eventMock = {
+                created_at: "2013-01-01",
+                actor_attributes: {gravatar_id: "ah78agf89af"},
+                type: "CreateEvent",
+                repository: {name: "eventName"},
+                actor: "testActor",
+                url: "http://example.com"
+            };
+
+            var eventList = [];
+            eventList.push(eventMock);
+
+            // mock notify method
+            notify = function(title, text, url, gravatarId) {
+                expect(gravatarId).toBe("ah78agf89af");
+            }
+
+            isEventActive = function(name) {
+                return true;
+            }
+
+            parsePublicFeed(eventList);
+        });
     });
 })();
