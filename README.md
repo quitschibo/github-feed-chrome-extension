@@ -1,5 +1,6 @@
 github-feed-chrome-extension
 ============================
+[![Dependency Status](https://www.versioneye.com/user/projects/528097fe632bacf157000034/badge.png)](https://www.versioneye.com/user/projects/528097fe632bacf157000034)
 
 A Chrome extension for getting notifications for selectable events from my Github feed
 
