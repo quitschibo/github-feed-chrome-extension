@@ -79,6 +79,7 @@ function parsePublicFeed(result) {
                 notify("Repository " + entry.repository.name + " open sourced", entry.actor + " has open sourced " + entry.repository.name + "! Click to get there!", entry.url, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
+        // follow event workflow
         } else if (entry.type == "FollowEvent" && isEventActive("FollowEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
                 notify(entry.actor + " started following " + entry.payload.target.login, "Click to get there!", entry.url, gravatarId);
