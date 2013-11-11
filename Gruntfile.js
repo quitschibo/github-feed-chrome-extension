@@ -272,6 +272,14 @@ module.exports = function (grunt) {
                     dest: ''
                 }]
             }
+        },
+        jasmine: {
+            pivotal: {
+                src: 'app/scripts/background.js',
+                options: {
+                    specs: 'test/spec/testB*.js'
+                }
+            }
         }
     });
 
@@ -279,7 +287,7 @@ module.exports = function (grunt) {
         'clean:server',
         'concurrent:test',
         'connect:test',
-        'mocha'
+        'jasmine'
     ]);
 
     grunt.registerTask('build', [
