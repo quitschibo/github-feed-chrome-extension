@@ -61,8 +61,8 @@ function parsePublicFeed(result) {
 
         console.log(entry);
 
-        // create event workflow
-        if (entry.type == "CreateEvent" && isEventActive("CreateEvent")) {
+        // create repository workflow
+        if (entry.type == "CreateEvent" && isEventActive("CreateEvent") && entry.payload.ref_type == "repository") {
             if (localStorage["lastEntry"] < createdAt) {
                 notify("New repository " + entry.repository.name + " created", entry.actor + " has created " + entry.repository.name + "! Click to get there!", entry.url, gravatarId);
                 localStorage["lastEntry"] = createdAt;
