@@ -1,8 +1,7 @@
 github-feed-chrome-extension
 ============================
+[ ![Codeship Status for quitschibo/github-feed-chrome-extension](https://www.codeship.io/projects/7a8b1a30-2edb-0131-3daa-5a6688a2a07f/status?branch=master)](https://www.codeship.io/projects/9441)
 [![Dependency Status](https://www.versioneye.com/user/projects/528097fe632bacf157000034/badge.png)](https://www.versioneye.com/user/projects/528097fe632bacf157000034)
-
-A Chrome extension for getting notifications for selectable events from my Github feed
 
 ## Setting up
 For getting the extension run, you have to provide your github credentials. These credentials are:
