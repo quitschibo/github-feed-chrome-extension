@@ -22,7 +22,10 @@
                 type: "CreateEvent",
                 repository: {name: "repoName"},
                 actor: "testActor",
-                url: "http://example.com"
+                url: "http://example.com",
+                payload: {
+                    ref_type: "repository"
+                }
             };
 
             // add mock to param list
