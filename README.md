@@ -1,6 +1,7 @@
 github-feed-chrome-extension
 ============================
 [ ![Codeship Status for quitschibo/github-feed-chrome-extension](https://www.codeship.io/projects/7a8b1a30-2edb-0131-3daa-5a6688a2a07f/status?branch=master)](https://www.codeship.io/projects/9441)
+[![Coverage Status](https://coveralls.io/repos/quitschibo/github-feed-chrome-extension/badge.png?branch=%28detached+from+e86bd20%29)](https://coveralls.io/r/quitschibo/github-feed-chrome-extension?branch=%28detached+from+e86bd20%29)
 [![Dependency Status](https://www.versioneye.com/user/projects/528097fe632bacf157000034/badge.png)](https://www.versioneye.com/user/projects/528097fe632bacf157000034)
 
 ## Setting up
