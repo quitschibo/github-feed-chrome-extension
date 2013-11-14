@@ -273,11 +273,35 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        jasmine: {
+        /*jasmine: {
             pivotal: {
                 src: 'app/scripts/background.js',
                 options: {
                     specs: 'test/spec/testB*.js'
+                }
+            }
+        }*/
+        jasmine: {
+            coverage: {
+                src: ['app/scripts/background.js'],
+                options: {
+                    specs: ['test/spec/testB*.js'],
+                    template: require('grunt-template-jasmine-istanbul'),
+                    templateOptions: {
+                        coverage: 'dist/coverage/coverage.json',
+                        report: {
+                            type: 'lcovonly',
+                            options: {
+                                dir: 'dist/coverage'
+                            }
+                        },
+                        thresholds: {
+                            lines: 10,
+                            statements: 10,
+                            branches: 10,
+                            functions: 10
+                        }
+                    }
                 }
             }
         }
@@ -287,7 +311,7 @@ module.exports = function (grunt) {
         'clean:server',
         'concurrent:test',
         'connect:test',
-        'jasmine'
+        'jasmine:coverage'
     ]);
 
     grunt.registerTask('build', [
