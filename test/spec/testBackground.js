@@ -47,7 +47,7 @@
 
             // mock localStorage
             localStorage = [];
-            localStorage['lastEntry'] == null;
+            localStorage['lastEntry'] == 0;
 
             parsePublicFeed(eventList);
 
