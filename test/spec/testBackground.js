@@ -45,9 +45,8 @@
                 return true;
             }
 
-            // mock localStorage
-            localStorage = [];
-            localStorage['lastEntry'] == 0;
+            // reset localStorage with helper
+            setKey('lastEntry', 0);
 
             parsePublicFeed(eventList);
 

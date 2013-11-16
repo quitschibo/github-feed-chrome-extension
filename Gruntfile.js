@@ -283,7 +283,7 @@ module.exports = function (grunt) {
         }*/
         jasmine: {
             coverage: {
-                src: ['app/scripts/background.js'],
+                src: ['app/scripts/background.js', "test/helper/localStorageHelper.js"],
                 options: {
                     specs: ['test/spec/testB*.js'],
                     template: require('grunt-template-jasmine-istanbul'),
