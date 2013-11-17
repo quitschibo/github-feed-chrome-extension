@@ -110,5 +110,18 @@
 
             expect(localStorage['lastEntry']).toBe("2013-01-04");
         });
+        it('check, if the getFeedUrl will be called', function () {
+            var methodCalled = false;
+
+            // mock method
+            getFeedUrl = function() {
+                methodCalled = true;
+            }
+
+            // run test method
+            recoverFromWrongPublicFeed();
+
+            expect(methodCalled).toBe(true);
+        });
     });
 })();
