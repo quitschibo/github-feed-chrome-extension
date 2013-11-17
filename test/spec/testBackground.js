@@ -20,22 +20,24 @@
 
             expect(localStorage['feedUrl']).toBe("http://example.com");
         });
-        it('check if parsePublicFeed works with createEvents', function () {
+        function createEvent(eventType, createdAt, reponame, actor, url, gravatarId) {
             var eventMock = {
-                created_at: "2013-01-01",
-                actor_attributes: {gravatar_id: "ah78agf89af"},
-                type: "CreateEvent",
-                repository: {name: "repoName"},
-                actor: "testActor",
-                url: "http://example.com",
+                created_at: createdAt,
+                actor_attributes: {gravatar_id: gravatarId},
+                type: eventType,
+                repository: {name: reponame},
+                actor: actor,
+                url: url,
                 payload: {
                     ref_type: "repository"
                 }
             };
-
+            return eventMock;
+        }
+        it('check if parsePublicFeed works with createEvents', function () {
             // add mock to param list
             var eventList = [];
-            eventList.push(eventMock);
+            eventList.push(createEvent("CreateEvent", "2013-01-01", "repoName", "testActor", "http://example.com", "ah78agf89af"));
 
             // mock notify method
             notify = function(title, text, url, gravatarId) {
