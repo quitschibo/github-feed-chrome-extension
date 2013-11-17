@@ -3,5 +3,5 @@
  */
 
 function setLocalStorageKey(key, value) {
-    localStorage[key] = value;
+    localStorage.setItem(key, value);
 }

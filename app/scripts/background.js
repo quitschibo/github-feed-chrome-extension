@@ -104,11 +104,11 @@ function recoverFromWrongPublicFeed() {
  * @returns {*}
  */
 function isEventActive(eventName) {
-    if (localStorage[eventName] == null) {
+    if (localStorage.getItem(eventName) == null || localStorage[eventName] == false) {
         return false;
     }
 
-    return localStorage[eventName];
+    return true;
 }
 
 /**
