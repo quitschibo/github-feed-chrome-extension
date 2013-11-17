@@ -2,6 +2,6 @@
  * Helper for initializing the localStorage for test purposes.
  */
 
-function setKey(key, value) {
+function setLocalStorageKey(key, value) {
     localStorage[key] = value;
 }

@@ -1,14 +1,19 @@
 (function () {
     describe('Test background.js', function () {
+        /**
+         * Reset test environment before run tests
+         */
+        beforeEach(function() {
+            // reset localStorage with helper
+            setLocalStorageKey('lastEntry', 0);
+            setLocalStorageKey('feedUrl', '');
+        });
         it('check if makeBaseAuth creates a valid basic auth', function () {
             var result = makeBaseAuth("testuser", "testpass");
 
             expect(result).toBe("Basic dGVzdHVzZXI6dGVzdHBhc3M=");
         });
         it('check if saveFeedUrl works', function () {
-            localStorage = [];
-            localStorage['feedUrl'] == '';
-
             feedMock = {current_user_url: "http://example.com"};
 
             saveFeedUrl(feedMock);
@@ -44,9 +49,6 @@
             isEventActive = function() {
                 return true;
             }
-
-            // reset localStorage with helper
-            setKey('lastEntry', 0);
 
             parsePublicFeed(eventList);
 
