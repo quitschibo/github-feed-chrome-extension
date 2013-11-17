@@ -7,6 +7,11 @@
             // reset localStorage with helper
             setLocalStorageKey('lastEntry', 0);
             setLocalStorageKey('feedUrl', '');
+
+            // all events active
+            isEventActive = function() {
+                return true;
+            }
         });
         it('check if makeBaseAuth creates a valid basic auth', function () {
             var result = makeBaseAuth("testuser", "testpass");
@@ -29,7 +34,10 @@
                 actor: actor,
                 url: url,
                 payload: {
-                    ref_type: "repository"
+                    ref_type: "repository",
+                    target : {
+                        login: "testUser"
+                    }
                 }
             };
             return eventMock;
@@ -47,14 +55,60 @@
                 expect(gravatarId).toBe("ah78agf89af");
             }
 
-            // all events active
-            isEventActive = function() {
-                return true;
+            parsePublicFeed(eventList);
+
+            expect(localStorage['lastEntry']).toBe("2013-01-01");
+        });
+        it('check if parsePublicFeed works with watchEvents', function () {
+            // add mock to param list
+            var eventList = [];
+            eventList.push(createEvent("WatchEvent", "2013-01-02", "repoName", "testActor", "http://example.com", "ah78agf89af"));
+
+            // mock notify method
+            notify = function(title, text, url, gravatarId) {
+                expect(title).toBe("Repository repoName starred");
+                expect(text).toBe("testActor has starred repoName in language undefined! Click to get there!");
+                expect(url).toBe("http://example.com");
+                expect(gravatarId).toBe("ah78agf89af");
             }
 
             parsePublicFeed(eventList);
 
-            expect(localStorage['lastEntry']).toBe("2013-01-01");
+            expect(localStorage['lastEntry']).toBe("2013-01-02");
+        });
+        it('check if parsePublicFeed works with publicEvents', function () {
+            // add mock to param list
+            var eventList = [];
+            eventList.push(createEvent("PublicEvent", "2013-01-03", "repoName", "testActor", "http://example.com", "ah78agf89af"));
+
+            // mock notify method
+            notify = function(title, text, url, gravatarId) {
+                expect(title).toBe("Repository repoName open sourced");
+                expect(text).toBe("testActor has open sourced repoName! Click to get there!");
+                expect(url).toBe("http://example.com");
+                expect(gravatarId).toBe("ah78agf89af");
+            }
+
+            parsePublicFeed(eventList);
+
+            expect(localStorage['lastEntry']).toBe("2013-01-03");
+        });
+        it('check if parsePublicFeed works with followEvent', function () {
+            // add mock to param list
+            var eventList = [];
+            eventList.push(createEvent("FollowEvent", "2013-01-04", "repoName", "testActor", "http://example.com", "ah78agf89af"));
+
+            // mock notify method
+            notify = function(title, text, url, gravatarId) {
+                expect(title).toBe("testActor started following testUser");
+                expect(text).toBe("Click to get there!");
+                expect(url).toBe("http://example.com");
+                expect(gravatarId).toBe("ah78agf89af");
+            }
+
+            parsePublicFeed(eventList);
+
+            expect(localStorage['lastEntry']).toBe("2013-01-04");
         });
     });
 })();
