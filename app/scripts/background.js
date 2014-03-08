@@ -29,7 +29,7 @@ function getFeedUrl() {
 }
 
 function saveFeedUrl(result) {
-    console.log(result.current_user_url);
+    console.log(result);
     localStorage["feedUrl"] = result.current_user_url;
 }
 
@@ -39,7 +39,7 @@ function saveFeedUrl(result) {
 function getFeed() {
     try {
         // call public feed for this user
-        $.ajax({type:'GET', dataType:'json', url: localStorage["feedUrl"], timeout:5000, success:parsePublicFeed, error:recoverFromWrongPublicFeed, async: false});
+        $.ajax({type:'GET', dataType:'json', url: localStorage["feedUrl"], timeout:5000, success:parsePublicFeed, error:recoverFromWrongPublicFeed, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', makeBaseAuth(localStorage["username"], localStorage["password"]));}});
     } catch (e) {
         console.log("Calling the feed resulted in error. Recovering in progress.");
     }
@@ -53,7 +53,6 @@ function getFeed() {
  * @param result The events in user feed provided by the Github API.
  */
 function parsePublicFeed(result) {
-    console.log(result);
     for (var i = result.length - 1; i >= 0; i--) {
         var entry = result[i];
         var createdAt = entry.created_at;
