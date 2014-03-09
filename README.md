@@ -6,7 +6,6 @@ github-feed-chrome-extension
 
 ## Setting up
 For getting the extension run, you have to provide your github credentials. These credentials are:
-* Your github username
 * A github token (you have to create one; [look here](https://help.github.com/articles/creating-an-access-token-for-command-line-use) to get it created)
 
 Please DO NOT provide your password (even if it would work)! Please treat your token like your password!
