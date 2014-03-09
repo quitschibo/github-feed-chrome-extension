@@ -33,6 +33,7 @@ function addRow(table, text, gravatarUrl) {
 
     var image = document.createElement("img");
     image.src = gravatarUrl;
+    image.className = "gravatarPicture";
     imageTd.appendChild(image);
 
     tr.appendChild(imageTd);
