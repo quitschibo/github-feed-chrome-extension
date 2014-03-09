@@ -4,7 +4,15 @@ html {
     /* Defaults css for cssmin process */
 }
 
-#main {
+body {
+    width: 200px;
+}
+
+div#main {
     width: 150px;
     font-size: 9pt;
+}
+
+img.gravatarPicture {
+    width: 40px;
 }

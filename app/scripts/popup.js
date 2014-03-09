@@ -1,33 +1,51 @@
 'use strict';
 
-function save() {
-    localStorage["username"] = $('#username').val();
-    localStorage["password"] = $('#password').val();
+window.onload = function() { start(); }
+
+/**
+ * Method for building the popup list.
+ */
+function start() {
+    var entries = getList();
+    console.log(entries);
+
+    var table = document.getElementById("table");
+
+    for (var i = entries.length - 1; i > 0 ; i--) {
+        if (!entries[i]) {
+            // stop, when we have reached the end of line
+            break;
+        }
+        addRow(table, entries[i].text, entries[i].gravatarUrl, entries[i].url);
+    }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    // set github credentials
-    $('#username').val(localStorage["username"]);
-    $('#password').val(localStorage["password"]);
+/**
+ * Method for adding a row to the popup table.
+ *
+ * @param table The table we want to add the row to
+ * @param text The text we want to add
+ * @param gravatarUrl The url to the picture we want to add
+ */
+function addRow(table, text, gravatarUrl, url) {
+    var tr = document.createElement("tr");
 
-    // set checkboxes - works with a workaround for boolean values -> localStorage only stores string and "false" -> true ;)
-    $('#create').attr('checked', localStorage["CreateEvent"] == "true");
-    $('#star').attr('checked', localStorage["WatchEvent"] == "true");
-    $('#opensource').attr('checked', localStorage["PublicEvent"] == "true");
-    $('#follow').attr('checked', localStorage["FollowEvent"] == "true");
+    var imageTd = document.createElement("td");
+    var textTd = document.createElement("td");
 
-    document.querySelector('button').addEventListener('click', save);
+    textTd.innerText = text;
 
-    $(".checkbox").change(function() {
-        // check which checkbox is used
-        if (this.id == "create") {
-            localStorage["CreateEvent"] = this.checked;
-        } else if (this.id == "star") {
-            localStorage["WatchEvent"] = this.checked;
-        } else if (this.id == "opensource") {
-            localStorage["PublicEvent"] = this.checked;
-        } else if (this.id == "follow") {
-            localStorage["FollowEvent"] = this.checked;
-        }
+    var image = document.createElement("img");
+    image.src = gravatarUrl;
+    image.className = "gravatarPicture";
+    imageTd.appendChild(image);
+
+    tr.appendChild(imageTd);
+    tr.appendChild(textTd);
+
+    tr.addEventListener("click", function() {
+        window.open(url);
     });
-});
+
+    table.appendChild(tr);
+}

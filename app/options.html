@@ -2,11 +2,23 @@
 <html>
     <head>
         <link href="styles/main.css" rel="stylesheet">
+        <script src="bower_components/jquery/jquery.min.js"></script>
         <!-- build:js scripts/options.js -->
         <script src="scripts/options.js"></script>
         <!-- endbuild -->
     </head>
     <body>
         <!-- CHROME EXTENSION OPTION -->
+        <form>
+            Github OAuth-token:<br />
+            <input id="oauthToken" type="password" value="" /><br />
+        </form>
+        <button>Save</button>
+        <br>
+        <br>
+        <input class="checkbox" type="checkbox" id="create" value="create">Create events<br>
+        <input class="checkbox" type="checkbox" id="star" value="star">Star events<br>
+        <input class="checkbox" type="checkbox" id="opensource" value="opensource">Open-source events<br>
+        <input class="checkbox" type="checkbox" id="follow" value="follow">Follow events<br>
     </body>
 </html>
