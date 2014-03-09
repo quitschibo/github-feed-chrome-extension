@@ -4,7 +4,7 @@
  * This object contains methods for creating and modifying a list of all events. This list will be shown on popuppage.
  */
 
-var threshold = 5;
+var threshold = 10;
 
 /**
  * Keys for the localStorage
