@@ -75,10 +75,20 @@ function getList() {
         count++;
         console.log("count: " + count);
 
+        // get data from localStorage
+        var text =localStorage[storageKeyText + count];
+        var url = localStorage[storageKeyUrl + count];
+        var gravatarId = localStorage[storageKeyGravatarUrl + count];
+
+        // if the text is undefined, we assume that there is no entry
+        if (!text) {
+            continue;
+        }
+
         var entry = {
-            text: localStorage[storageKeyText + count],
-            url: localStorage[storageKeyUrl + count],
-            gravatarUrl: "http://www.gravatar.com/avatar/" + localStorage[storageKeyGravatarUrl + count]
+            text: text,
+            url: url,
+            gravatarUrl: "http://www.gravatar.com/avatar/" + gravatarId
         }
         result[i] = entry;
     }
