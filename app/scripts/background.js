@@ -124,6 +124,8 @@ function notify(title, text, link, gravatarId) {
         not.close();
     });
     not.show();
+
+    addItem(text, link, gravatarId);
 }
 
 /**
