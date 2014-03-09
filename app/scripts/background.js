@@ -22,7 +22,7 @@ function getFeedUrl() {
     console.log("get new feed url");
     try {
         // get all feeds for this user
-        $.ajax({type:'GET', dataType:'json', url: 'https://api.github.com/feeds', timeout:5000, success:saveFeedUrl, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', makeBaseAuth(localStorage["username"], localStorage["password"]));}});
+        $.ajax({type:'GET', dataType:'json', url: 'https://api.github.com/feeds', timeout:5000, success:saveFeedUrl, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', makeBaseAuth(localStorage["oauthToken"], ""));}});
     } catch (e) {
         console.log("Error fetching feed list from Github. The server might be down or the api has changed. Will try it again the next time.");
     }
@@ -39,7 +39,7 @@ function saveFeedUrl(result) {
 function getFeed() {
     try {
         // call public feed for this user
-        $.ajax({type:'GET', dataType:'json', url: localStorage["feedUrl"], timeout:5000, success:parsePublicFeed, error:recoverFromWrongPublicFeed, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', makeBaseAuth(localStorage["username"], localStorage["password"]));}});
+        $.ajax({type:'GET', dataType:'json', url: localStorage["feedUrl"], timeout:5000, success:parsePublicFeed, error:recoverFromWrongPublicFeed, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', makeBaseAuth(localStorage["oauthToken"], ""));}});
     } catch (e) {
         console.log("Calling the feed resulted in error. Recovering in progress.");
     }

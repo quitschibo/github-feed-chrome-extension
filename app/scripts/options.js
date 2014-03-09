@@ -1,14 +1,12 @@
 'use strict';
 
 function save() {
-    localStorage["username"] = $('#username').val();
-    localStorage["password"] = $('#password').val();
+    localStorage["oauthToken"] = $('#oauthToken').val();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     // set github credentials
-    $('#username').val(localStorage["username"]);
-    $('#password').val(localStorage["password"]);
+    $('#oauthToken').val(localStorage["oauthToken"]);
 
     // set checkboxes - works with a workaround for boolean values -> localStorage only stores string and "false" -> true ;)
     $('#create').attr('checked', localStorage["CreateEvent"] == "true");
