@@ -36,7 +36,7 @@ function addItem(eventText, eventUrl, gravatarUrl) {
 }
 
 /**
- * Function for getting the count of the list entries. Every new entry will increment this count.
+ * Function for getting the count of the list entries. Every call will increment this count.
  */
 function getNewListCount() {
     var actualCount = localStorage.getItem(storageKeyCount);
@@ -51,6 +51,9 @@ function getNewListCount() {
     }
 }
 
+/**
+ * Function for getting the count of the list entries.
+ */
 function getListCount() {
     var actualCount = localStorage.getItem(storageKeyCount);
 
@@ -66,7 +69,11 @@ function getListCount() {
  */
 function getList() {
     var result = [];
+
+    // calculate count of first entry
     var count = getListCount() - threshold + 1;
+
+    // if there are less entry than the threshold (count < 1), we want to begin with the first element
     if (count <= 0) {
         count = 1;
     }
@@ -85,6 +92,7 @@ function getList() {
             continue;
         }
 
+        // build entry
         var entry = {
             text: text,
             url: url,
