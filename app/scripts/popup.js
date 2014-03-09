@@ -16,7 +16,7 @@ function start() {
             // stop, when we have reached the end of line
             break;
         }
-        addRow(table, entries[i].text, entries[i].gravatarUrl);
+        addRow(table, entries[i].text, entries[i].gravatarUrl, entries[i].url);
     }
 }
 
@@ -27,7 +27,7 @@ function start() {
  * @param text The text we want to add
  * @param gravatarUrl The url to the picture we want to add
  */
-function addRow(table, text, gravatarUrl) {
+function addRow(table, text, gravatarUrl, url) {
     var tr = document.createElement("tr");
 
     var imageTd = document.createElement("td");
@@ -42,6 +42,10 @@ function addRow(table, text, gravatarUrl) {
 
     tr.appendChild(imageTd);
     tr.appendChild(textTd);
+
+    tr.addEventListener("click", function() {
+        window.open(url);
+    });
 
     table.appendChild(tr);
 }
