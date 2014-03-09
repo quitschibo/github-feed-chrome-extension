@@ -11,7 +11,11 @@ function start() {
 
     var table = document.getElementById("table");
 
-    for (var i = 0; i < entries.length; i++) {
+    for (var i = entries.length - 1; i > 0 ; i--) {
+        if (!entries[i]) {
+            // stop, when we have reached the end of line
+            break;
+        }
         addRow(table, entries[i].text, entries[i].gravatarUrl);
     }
 }
