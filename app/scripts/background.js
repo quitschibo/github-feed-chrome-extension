@@ -22,7 +22,7 @@ function getFeedUrl() {
     console.log("get new feed url");
     try {
         // get all feeds for this user
-        $.ajax({type:'GET', dataType:'json', url: 'https://api.github.com/feeds', timeout:5000, success:saveFeedUrl, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', makeBaseAuth(localStorage["oauthToken"], ""));}});
+        $.ajax({type:'GET', dataType:'json', url: 'https://api.github.com/user', timeout:5000, success:saveFeedUrl, async: false, beforeSend: function (xhr){ xhr.setRequestHeader('Authorization', makeBaseAuth(localStorage["oauthToken"], ""));}});
     } catch (e) {
         console.log("Error fetching feed list from Github. The server might be down or the api has changed. Will try it again the next time.");
     }
@@ -30,7 +30,7 @@ function getFeedUrl() {
 
 function saveFeedUrl(result) {
     console.log(result);
-    localStorage["feedUrl"] = result.current_user_url;
+    localStorage["feedUrl"] = "https://api.github.com/users/" + result.login + "/received_events";
 }
 
 /**
@@ -56,36 +56,44 @@ function parsePublicFeed(result) {
     for (var i = result.length - 1; i >= 0; i--) {
         var entry = result[i];
         var createdAt = entry.created_at;
-        var gravatarId = entry.actor_attributes.gravatar_id;
+        var gravatarId = entry.actor.gravatar_id;
 
         console.log(entry);
 
         // create repository workflow
         if (entry.type == "CreateEvent" && isEventActive("CreateEvent") && entry.payload.ref_type == "repository") {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("New repository " + entry.repository.name + " created", entry.actor + " has created " + entry.repository.name + "! Click to get there!", entry.url, gravatarId);
+                notify("New repository " + entry.repo.name + " created", entry.actor.login + " has created " + entry.repo.name + "! Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // star event workflow
         } else if (entry.type == "WatchEvent" && isEventActive("WatchEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("Repository " + entry.repository.name + " starred", entry.actor + " has starred " + entry.repository.name + " in language " + entry.repository.language + "! Click to get there!", entry.url, gravatarId);
+                notify("Repository " + entry.repo.name + " starred", entry.actor.login + " has starred " + entry.repo.name + "! Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // open source event workflow
         } else  if (entry.type == "PublicEvent" && isEventActive("PublicEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("Repository " + entry.repository.name + " open sourced", entry.actor + " has open sourced " + entry.repository.name + "! Click to get there!", entry.url, gravatarId);
+                notify("Repository " + entry.repo.name + " open sourced", entry.actor.login + " has open sourced " + entry.repo.name + "! Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // follow event workflow
         } else if (entry.type == "FollowEvent" && isEventActive("FollowEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify(entry.actor + " started following " + entry.payload.target.login, "Click to get there!", entry.url, gravatarId);
+                notify(entry.actor.login + " started following " + entry.payload.target.login, "Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         }
     }
+}
+
+/**
+ * Method for building the repo html url for a repo by repoName.
+ * @param repoName
+ */
+function buildRepoUrlByName(repoName) {
+    return "https://github.com/" + repoName;
 }
 
 /**
@@ -121,7 +129,7 @@ function notify(title, text, link, gravatarId) {
     var not = webkitNotifications.createNotification("http://www.gravatar.com/avatar/" + gravatarId, title, text);
     not.addEventListener("click", function () {
         window.open(link);
-        not.close();
+        not.clear();
     });
     not.show();
 

@@ -15,11 +15,11 @@
             expect(result).toBe("Basic dGVzdHVzZXI6dGVzdHBhc3M=");
         });
         it('check if saveFeedUrl works', function () {
-            feedMock = {current_user_url: "http://example.com"};
+            feedMock = {login: "quitschibo"};
 
             saveFeedUrl(feedMock);
 
-            expect(localStorage['feedUrl']).toBe("http://example.com");
+            expect(localStorage['feedUrl']).toBe("https://api.github.com/users/quitschibo/received_events");
         });
         /**
          * Method for creating event mocks for testing
@@ -29,14 +29,12 @@
         function createEvent(eventType, createdAt, reponame, actor, url, gravatarId) {
             var eventMock = {
                 created_at: createdAt,
-                actor_attributes: {gravatar_id: gravatarId},
+                actor: {gravatar_id: gravatarId, login: actor},
                 type: eventType,
-                repository: {name: reponame},
-                actor: actor,
-                url: url,
+                repo: {name: reponame},
                 payload: {
                     ref_type: "repository",
-                    target : {
+                    target: {
                         login: "testUser"
                     }
                 }
@@ -61,7 +59,7 @@
             notify = function(title, text, url, gravatarId) {
                 expect(title).toBe("New repository repoName created");
                 expect(text).toBe("testActor has created repoName! Click to get there!");
-                expect(url).toBe("http://example.com");
+                expect(url).toBe("https://github.com/repoName");
                 expect(gravatarId).toBe("ah78agf89af");
             }
 
@@ -79,8 +77,8 @@
             // mock notify method
             notify = function(title, text, url, gravatarId) {
                 expect(title).toBe("Repository repoName starred");
-                expect(text).toBe("testActor has starred repoName in language undefined! Click to get there!");
-                expect(url).toBe("http://example.com");
+                expect(text).toBe("testActor has starred repoName! Click to get there!");
+                expect(url).toBe("https://github.com/repoName");
                 expect(gravatarId).toBe("ah78agf89af");
             }
 
@@ -99,7 +97,7 @@
             notify = function(title, text, url, gravatarId) {
                 expect(title).toBe("Repository repoName open sourced");
                 expect(text).toBe("testActor has open sourced repoName! Click to get there!");
-                expect(url).toBe("http://example.com");
+                expect(url).toBe("https://github.com/repoName");
                 expect(gravatarId).toBe("ah78agf89af");
             }
 
@@ -118,7 +116,7 @@
             notify = function(title, text, url, gravatarId) {
                 expect(title).toBe("testActor started following testUser");
                 expect(text).toBe("Click to get there!");
-                expect(url).toBe("http://example.com");
+                expect(url).toBe("https://github.com/repoName");
                 expect(gravatarId).toBe("ah78agf89af");
             }
 

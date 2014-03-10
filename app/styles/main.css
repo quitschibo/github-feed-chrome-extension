@@ -5,7 +5,7 @@ html {
 }
 
 body {
-    width: 200px;
+    width: 225px;
 }
 
 div#main {
@@ -15,4 +15,8 @@ div#main {
 
 img.gravatarPicture {
     width: 40px;
+}
+
+tr.listElement {
+    background: #e7e7e7;
 }
