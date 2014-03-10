@@ -63,29 +63,37 @@ function parsePublicFeed(result) {
         // create repository workflow
         if (entry.type == "CreateEvent" && isEventActive("CreateEvent") && entry.payload.ref_type == "repository") {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("New repository " + entry.repo.name + " created", entry.actor.login + " has created " + entry.repo.name + "! Click to get there!", entry.repo.url, gravatarId);
+                notify("New repository " + entry.repo.name + " created", entry.actor.login + " has created " + entry.repo.name + "! Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // star event workflow
         } else if (entry.type == "WatchEvent" && isEventActive("WatchEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("Repository " + entry.repo.name + " starred", entry.actor.login + " has starred " + entry.repo.name + " ! Click to get there!", entry.repo.url, gravatarId);
+                notify("Repository " + entry.repo.name + " starred", entry.actor.login + " has starred " + entry.repo.name + " ! Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // open source event workflow
         } else  if (entry.type == "PublicEvent" && isEventActive("PublicEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("Repository " + entry.repo.name + " open sourced", entry.actor.login + " has open sourced " + entry.repo.name + "! Click to get there!", entry.repo.url, gravatarId);
+                notify("Repository " + entry.repo.name + " open sourced", entry.actor.login + " has open sourced " + entry.repo.name + "! Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // follow event workflow
         } else if (entry.type == "FollowEvent" && isEventActive("FollowEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify(entry.actor.login + " started following " + entry.payload.target.login, "Click to get there!", entry.repo.url, gravatarId);
+                notify(entry.actor.login + " started following " + entry.payload.target.login, "Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         }
     }
+}
+
+/**
+ * Method for building the repo html url for a repo by repoName.
+ * @param repoName
+ */
+function buildRepoUrlByName(repoName) {
+    return "https://github.com/" + repoName;
 }
 
 /**
