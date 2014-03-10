@@ -69,7 +69,7 @@ function parsePublicFeed(result) {
         // star event workflow
         } else if (entry.type == "WatchEvent" && isEventActive("WatchEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("Repository " + entry.repo.name + " starred", entry.actor.login + " has starred " + entry.repo.name + " ! Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
+                notify("Repository " + entry.repo.name + " starred", entry.actor.login + " has starred " + entry.repo.name + "! Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // open source event workflow
