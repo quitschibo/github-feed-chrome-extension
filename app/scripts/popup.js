@@ -42,6 +42,7 @@ function addRow(table, text, gravatarUrl, url) {
 
     tr.appendChild(imageTd);
     tr.appendChild(textTd);
+    tr.className = "listElement";
 
     tr.addEventListener("click", function() {
         window.open(url);

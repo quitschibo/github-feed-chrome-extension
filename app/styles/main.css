@@ -16,3 +16,7 @@ div#main {
 img.gravatarPicture {
     width: 40px;
 }
+
+tr.listElement {
+    background: #e7e7e7;
+}
