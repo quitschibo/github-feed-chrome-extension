@@ -129,7 +129,7 @@ function notify(title, text, link, gravatarId) {
     var not = webkitNotifications.createNotification("http://www.gravatar.com/avatar/" + gravatarId, title, text);
     not.addEventListener("click", function () {
         window.open(link);
-        not.close();
+        not.clear();
     });
     not.show();
 
