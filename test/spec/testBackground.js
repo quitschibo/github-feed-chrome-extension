@@ -15,7 +15,7 @@
             expect(result).toBe("Basic dGVzdHVzZXI6dGVzdHBhc3M=");
         });
         it('check if saveFeedUrl works', function () {
-            feedMock = {login: "quitschibo"};
+            var feedMock = {received_events_url: "https://api.github.com/users/quitschibo/received_events"};
 
             saveFeedUrl(feedMock);
 
@@ -29,7 +29,7 @@
         function createEvent(eventType, createdAt, reponame, actor, url, gravatarId) {
             var eventMock = {
                 created_at: createdAt,
-                actor: {gravatar_id: gravatarId, login: actor},
+                actor: {avatar_url: gravatarId, login: actor},
                 type: eventType,
                 repo: {name: reponame},
                 payload: {
