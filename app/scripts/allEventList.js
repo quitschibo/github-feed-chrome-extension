@@ -75,7 +75,7 @@ function getList() {
 
     // if there are less entry than the threshold (count < 1), we want to begin with the first element
     if (count <= 0) {
-        count = 1;
+        count = 0;
     }
 
     for (var i = 0; i < threshold; i++) {
@@ -96,7 +96,7 @@ function getList() {
         var entry = {
             text: text,
             url: url,
-            gravatarUrl: "http://www.gravatar.com/avatar/" + gravatarId
+            gravatarUrl: gravatarId
         }
         result[i] = entry;
     }

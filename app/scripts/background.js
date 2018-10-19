@@ -30,7 +30,7 @@ function getFeedUrl() {
 
 function saveFeedUrl(result) {
     console.log(result);
-    localStorage["feedUrl"] = "https://api.github.com/users/" + result.login + "/received_events";
+    localStorage["feedUrl"] = result.received_events_url;
 }
 
 /**
@@ -56,44 +56,40 @@ function parsePublicFeed(result) {
     for (var i = result.length - 1; i >= 0; i--) {
         var entry = result[i];
         var createdAt = entry.created_at;
-        var gravatarId = entry.actor.gravatar_id;
+        var gravatarId = entry.actor.avatar_url;
+
+        var repoName = entry.repo.name;
+        var userName = entry.actor.login;
+        var repoUrl = "https://github.com/" + entry.repo.name;
 
         console.log(entry);
 
         // create repository workflow
         if (entry.type == "CreateEvent" && isEventActive("CreateEvent") && entry.payload.ref_type == "repository") {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("New repository " + entry.repo.name + " created", entry.actor.login + " has created " + entry.repo.name + "! Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
+                saveItemAndNotify("New repository " + repoName + " created", userName + " has created " + repoName + "! Click to get there!", repoUrl, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // star event workflow
         } else if (entry.type == "WatchEvent" && isEventActive("WatchEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("Repository " + entry.repo.name + " starred", entry.actor.login + " has starred " + entry.repo.name + "! Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
+                saveItemAndNotify("Repository " + repoName + " starred", userName + " has starred " + repoName + "! Click to get there!", repoUrl, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // open source event workflow
         } else  if (entry.type == "PublicEvent" && isEventActive("PublicEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify("Repository " + entry.repo.name + " open sourced", entry.actor.login + " has open sourced " + entry.repo.name + "! Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
+                saveItemAndNotify("Repository " + repoName + " open sourced", userName + " has open sourced " + repoName + "! Click to get there!", repoUrl, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         // follow event workflow
         } else if (entry.type == "FollowEvent" && isEventActive("FollowEvent")) {
             if (localStorage["lastEntry"] < createdAt) {
-                notify(entry.actor.login + " started following " + entry.payload.target.login, "Click to get there!", buildRepoUrlByName(entry.repo.name), gravatarId);
+                saveItemAndNotify(userName + " started following " + entry.payload.target.login, "Click to get there!", repoUrl, gravatarId);
                 localStorage["lastEntry"] = createdAt;
             }
         }
     }
-}
-
-/**
- * Method for building the repo html url for a repo by repoName.
- * @param repoName
- */
-function buildRepoUrlByName(repoName) {
-    return "https://github.com/" + repoName;
 }
 
 /**
@@ -119,6 +115,23 @@ function isEventActive(eventName) {
 }
 
 /**
+ * Function for setting the listener for the notifications. This function will be called once.
+ */
+function setNotificationListener() {
+        // notification onClick function
+        chrome.notifications.onClicked.addListener(function () {
+
+        // open link
+        window.open(localStorage.getItem('allEvent.url1'));
+    });
+}
+
+function saveItemAndNotify(title, text, link, gravatarId) {
+    addItem(text, link, gravatarId);
+    notify(title, text, link, gravatarId);
+}
+
+/**
  * Send notification to user.
  *
  * @param title The title of the notification
@@ -126,14 +139,20 @@ function isEventActive(eventName) {
  * @param link The link we want to send the user when he clicks the notification
  */
 function notify(title, text, link, gravatarId) {
-    var not = webkitNotifications.createNotification("http://www.gravatar.com/avatar/" + gravatarId, title, text);
-    not.addEventListener("click", function () {
-        window.open(link);
-        not.clear();
-    });
-    not.show();
 
-    addItem(text, link, gravatarId);
+    var notificationProperties = {
+        type: "basic",
+        title: title,
+        iconUrl: gravatarId,
+        message: text
+    };
+
+    var notificationId = "ghn-notification_" + title;
+
+    chrome.notifications.create(notificationId, notificationProperties, function() { console.log('created!'); });
+
+    // set notification timeout
+    setTimeout(function() { chrome.notifications.clear(notificationId, function(wasCleared) { console.log("notification was cleared: " + wasCleared); }); }, 3000);
 }
 
 /**
@@ -157,4 +176,5 @@ function run() {
 
 // initial run when extension is ready
 run();
+setNotificationListener();
 
